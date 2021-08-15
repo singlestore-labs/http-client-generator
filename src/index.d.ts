@@ -2,13 +2,15 @@ type BaseRequest = {
     host: string;
     username: string;
     password: string;
+    https?: boolean;
     sql: string;
     args?: Array<unknown>;
     database?: string;
 };
 
-type ExecRequest = BaseRequest;
+export type ExecRequest = BaseRequest;
 
+// TODO carl needs to fix this
 export type ExecResponse = {
     lastInsertId: number;
     rowsAffected: number;
@@ -16,7 +18,7 @@ export type ExecResponse = {
 
 export declare function exec(request: ExecRequest): Promise<ExecResponse>;
 
-type QueryRequest = BaseRequest & {
+export type QueryRequest = BaseRequest & {
     includeColumnHeaders?: boolean;
 };
 

@@ -1,5 +1,5 @@
 {
-  "version": "0.0.2",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -17,7 +17,8 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build && cp src/index.d.ts dist",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "prettier": "prettier --write 'src/**/*.{js,tsx,ts,jsx}'"
   },
   "peerDependencies": {},
   "husky": {
@@ -32,8 +33,8 @@
     "trailingComma": "es5",
     "tabWidth": 4
   },
-  "name": "@singlestore/http-sdk",
-  "author": "Lidia Custodio",
+  "name": "@singlestore/http-client-js",
+  "author": "SingleStore",
   "module": "dist/http-sdk.esm.js",
   "size-limit": [
     {
@@ -46,11 +47,14 @@
     }
   ],
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.2",
-    "husky": "^7.0.1",
-    "size-limit": "^5.0.2",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.0",
-    "typescript": "^4.3.5"
+    "@size-limit/preset-small-lib": "5.0.2",
+    "@types/node-fetch": "2.5.12",
+    "husky": "7.0.1",
+    "msw": "0.34.0",
+    "node-fetch": "2.6.1",
+    "size-limit": "5.0.2",
+    "tsdx": "0.14.1",
+    "tslib": "2.3.0",
+    "typescript": "4.3.5"
   }
 }
