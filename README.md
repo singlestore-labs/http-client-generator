@@ -1,4 +1,4 @@
-# @singlestore/http-client-js
+# @singlestore/http-clients
 
 `@singlestore/http-clients` is a collection of client wrappers around [SingleStore's HTTP API](https://docs.singlestore.com/managed-service/en/reference/http-api.html).  A variety of programming languages are supported (see below).  Each client exports a few functions which simplify using SingleStore's HTTP API.
 
