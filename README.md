@@ -1,52 +1,23 @@
 # @singlestore/http-client-js
 
-`@singlestore/http-client-js` is a JavaScript wrapper for [SingleStore's HTTP API](https://docs.singlestore.com/managed-service/en/reference/http-api.html). It exports a few functions which simplify using SingleStore's HTTP API from a JavaScript project, with TypeScript bindings.
+`@singlestore/http-clients` is a collection of client wrappers around [SingleStore's HTTP API](https://docs.singlestore.com/managed-service/en/reference/http-api.html).  A variety of programming languages are supported (see below).  Each client exports a few functions which simplify using SingleStore's HTTP API.
 
-```javascript
-import { query } from "@singlestore/http-client-js";
+| Client Language | Subdirectory |
+|-----------------|--------------|
+| JavaScript      | /js          |
+| PHP             | /php         |
 
-type Country = {
-    name: string;
-};
+Most clients have been generated from the OpenAPI3 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  To access SingleStore's full OpenAPI3 spec, you can query the following REST endpoint on the SingleStore HTTP Proxy Server running in your environment:
 
-function getCountries() {
-    const sql = `
-        SELECT DISTINCT
-            name
-        FROM 
-            countries
-        GROUP BY 
-            name
-        ORDER BY
-            name
-    `;
+    GET /api/v1/spec
 
-    const database = "maps";
-
-    const response = await query<Country>({
-        host,
-        username,
-        password,
-        sql,
-        database,
-    });
-
-    const countries = response.results[0].rows;
-
-    return countries;
-}
-```
-
-## Installation
-
-`npm install @singlestore/http-client-js`
+For language-specific information about each client, please consult the README file in that client's respective subdirectory.
 
 ## Documentation
 
-TODO after API is finalized.
+Please see the [SingleStore HTTP API Documentation](https://docs.singlestore.com/managed-service/en/reference/http-api.html).
 
 ## Contributing
 
-Pull Requests are welcome, and better tests are needed (see `src/index.test.tsx`).
+Pull Requests are welcome.
 
-In order to run tests, simply run `npm test`.
