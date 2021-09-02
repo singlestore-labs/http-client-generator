@@ -93,17 +93,28 @@ try {
         'CREATE TABLE IF NOT EXISTS phptable('   .
             'id INT AUTO_INCREMENT PRIMARY KEY,' .
             'label VARCHAR(100),'                .
-            'create_time DATETIME);');
+            'create_time DATETIME,'              .
+            'extra_data JSON);');
     $result = $apiInstance->exec($execParms_createTbl);
     print('<i>createTbl</i>:<br><tt>' . $result . '</tt><br><br>');
 
     // Here, we include a third argument, "Args", which is an array of values
-    // that will replace each respective '?' in the SQL statement.
+    // that will replace each respective '?' in the SQL statement.  The first
+    // replacement is with a random string (passed via the "label" column).
+    // The second replacement illustrates passing an arbitrary JSON object to
+    // the "extra_data" column, which is of JSON type.
+    $extra = [
+        'names' => [ 'Fred', 'Bob', 'Jane' ],
+        'address' => [
+            'city' => 'Raleigh',
+            'state' => 'NC'
+        ]
+    ];
     $execParms_insertTbl = new \SingleStore\Client\ExecInput();
     $execParms_insertTbl->setDatabase('phptest');
     $execParms_insertTbl->setSql(
-        'INSERT INTO phptable (label, create_time) VALUES (?, NOW());');
-    $execParms_insertTbl->setArgs(array($label));
+        'INSERT INTO phptable (label, create_time, extra_data) VALUES (?, NOW(), ?);');
+    $execParms_insertTbl->setArgs(array($label, $extra));
     $result = $apiInstance->exec($execParms_insertTbl);
     print('<i>insertTbl</i>:<br><tt>' . $result . '</tt><br><br>');
 } catch (Exception $e) {

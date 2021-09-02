@@ -74,19 +74,26 @@ const server = http.createServer(async function(req, res) {
             sql: 'CREATE TABLE IF NOT EXISTS jstable('   +
                     'id INT AUTO_INCREMENT PRIMARY KEY,' +
                     'label VARCHAR(100),'                +
-                    'create_time DATETIME);'
+                    'create_time DATETIME,'              +
+                    'extra_data JSON);'
         }
     };
 
-    // Similar in form to the previous query, this one passes a random string
-    // in for the "label" column value using the "args" array and a matching 
-    // '?' in the SQL statement.
+    // Similar in form to the previous query, this one utilizes the "args" 
+    // parameter to match the corresponding '?' symbols in the SQL query.  The
+    // first replacement is with random string is passed in for the "label" 
+    // column.  The second illustrates passing an arbitrary JSON object to
+    // to the "extra_data" column, which is of JSON type.
     label = Math.random().toString(36).replace(/[^a-z]+/g, '');
+    extra = { 
+        names: [ 'Fred', 'Bob', 'Jane' ], 
+        address: { city: 'Raleigh', state: 'NC' } 
+    };
     execParms_insertTbl = {
         execInput: {
             database: 'jstest',
-            sql: 'INSERT INTO jstable (label, create_time) VALUES (?, NOW());',
-            args: [ label ]
+            sql: 'INSERT INTO jstable (label, create_time, extra_data) VALUES (?, NOW(), ?);',
+            args: [ label, extra ]
         }
     };
 
