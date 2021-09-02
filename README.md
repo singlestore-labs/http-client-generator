@@ -31,5 +31,5 @@ For convenience, this repo provides pregenerated clients for all supported langu
 
 ## Contributing
 
-SingleStore welcomes Pull Requests for this repository.
+Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
