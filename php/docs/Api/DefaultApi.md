@@ -1,4 +1,4 @@
-# OpenAPI\Client\DefaultApi
+# SingleStore\DefaultApi
 
 All URIs are relative to http://localhost.
 
@@ -14,7 +14,7 @@ Method | HTTP request | Description
 ## `exec()`
 
 ```php
-exec($exec_input): \OpenAPI\Client\SingleStore\ExecOutput
+exec($exec_input): \SingleStore\Client\ExecOutput
 ```
 
 Exec
@@ -29,18 +29,18 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure HTTP basic authorization: BasicAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()
+$config = SingleStore\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
 
 
-$apiInstance = new OpenAPI\Client\Api\DefaultApi(
+$apiInstance = new SingleStore\Api\DefaultApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
     $config
 );
-$exec_input = new \OpenAPI\Client\SingleStore\ExecInput(); // \OpenAPI\Client\SingleStore\ExecInput | The request should include a JSON payload in the HTTP POST body. The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue.
+$exec_input = new \SingleStore\Client\ExecInput(); // \SingleStore\Client\ExecInput | The request should include a JSON payload in the HTTP POST body. The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue.
 
 try {
     $result = $apiInstance->exec($exec_input);
@@ -54,11 +54,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **exec_input** | [**\OpenAPI\Client\SingleStore\ExecInput**](../Model/ExecInput.md)| The request should include a JSON payload in the HTTP POST body. The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue. | [optional]
+ **exec_input** | [**\SingleStore\Client\ExecInput**](../Model/ExecInput.md)| The request should include a JSON payload in the HTTP POST body. The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue. | [optional]
 
 ### Return type
 
-[**\OpenAPI\Client\SingleStore\ExecOutput**](../Model/ExecOutput.md)
+[**\SingleStore\Client\ExecOutput**](../Model/ExecOutput.md)
 
 ### Authorization
 
@@ -91,12 +91,12 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure HTTP basic authorization: BasicAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()
+$config = SingleStore\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
 
 
-$apiInstance = new OpenAPI\Client\Api\DefaultApi(
+$apiInstance = new SingleStore\Api\DefaultApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
@@ -135,7 +135,7 @@ This endpoint does not need any parameter.
 ## `rows()`
 
 ```php
-rows($query_input): \OpenAPI\Client\SingleStore\QueryOutput
+rows($query_input): \SingleStore\Client\QueryOutput
 ```
 
 Query
@@ -150,18 +150,18 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure HTTP basic authorization: BasicAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()
+$config = SingleStore\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
 
 
-$apiInstance = new OpenAPI\Client\Api\DefaultApi(
+$apiInstance = new SingleStore\Api\DefaultApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
     $config
 );
-$query_input = new \OpenAPI\Client\SingleStore\QueryInput(); // \OpenAPI\Client\SingleStore\QueryInput | The request should include a JSON payload in the HTTP POST body.  The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue.
+$query_input = new \SingleStore\Client\QueryInput(); // \SingleStore\Client\QueryInput | The request should include a JSON payload in the HTTP POST body. The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue.
 
 try {
     $result = $apiInstance->rows($query_input);
@@ -175,11 +175,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query_input** | [**\OpenAPI\Client\SingleStore\QueryInput**](../Model/QueryInput.md)| The request should include a JSON payload in the HTTP POST body.  The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue. |
+ **query_input** | [**\SingleStore\Client\QueryInput**](../Model/QueryInput.md)| The request should include a JSON payload in the HTTP POST body. The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue. | [optional]
 
 ### Return type
 
-[**\OpenAPI\Client\SingleStore\QueryOutput**](../Model/QueryOutput.md)
+[**\SingleStore\Client\QueryOutput**](../Model/QueryOutput.md)
 
 ### Authorization
 
@@ -212,12 +212,12 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure HTTP basic authorization: BasicAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()
+$config = SingleStore\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
 
 
-$apiInstance = new OpenAPI\Client\Api\DefaultApi(
+$apiInstance = new SingleStore\Api\DefaultApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
@@ -256,7 +256,7 @@ This endpoint does not need any parameter.
 ## `tuples()`
 
 ```php
-tuples($query_input): \OpenAPI\Client\SingleStore\StreamOutput
+tuples($query_input): \SingleStore\Client\StreamOutput
 ```
 
 Query
@@ -271,18 +271,18 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 // Configure HTTP basic authorization: BasicAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()
+$config = SingleStore\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
 
 
-$apiInstance = new OpenAPI\Client\Api\DefaultApi(
+$apiInstance = new SingleStore\Api\DefaultApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
     $config
 );
-$query_input = new \OpenAPI\Client\SingleStore\QueryInput(); // \OpenAPI\Client\SingleStore\QueryInput | The request should include a JSON payload in the HTTP POST body.  The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue.
+$query_input = new \SingleStore\Client\QueryInput(); // \SingleStore\Client\QueryInput | The request should include a JSON payload in the HTTP POST body.  The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue.
 
 try {
     $result = $apiInstance->tuples($query_input);
@@ -296,11 +296,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query_input** | [**\OpenAPI\Client\SingleStore\QueryInput**](../Model/QueryInput.md)| The request should include a JSON payload in the HTTP POST body.  The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue. |
+ **query_input** | [**\SingleStore\Client\QueryInput**](../Model/QueryInput.md)| The request should include a JSON payload in the HTTP POST body.  The payload must match the following specification precisely, invalid payloads will raise a validation error describing the issue. | [optional]
 
 ### Return type
 
-[**\OpenAPI\Client\SingleStore\StreamOutput**](../Model/StreamOutput.md)
+[**\SingleStore\Client\StreamOutput**](../Model/StreamOutput.md)
 
 ### Authorization
 
