@@ -4,8 +4,8 @@ This repository is a collection of language-specific client wrappers around [Sin
 
 | Client Language | Directory    |
 |-----------------|--------------|
-| JavaScript      | /js          |
-| PHP             | /php         |
+| JavaScript      | [/js](js)    |
+| PHP             | [/php](php)  |
 
 All clients have been generated from SingleStore's OpenAPI 3.0 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  A copy of this spec is included in this repo, and also available by querying the following REST endpoint on a SingleStore HTTP Proxy Server:
 
