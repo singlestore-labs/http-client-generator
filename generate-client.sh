@@ -156,10 +156,6 @@ ${_DOCKER} run                                     \
         ${GENPRMS}                                 \
     > /dev/null
 check-err "Error generating client.  Exiting."
-#        --api-package=SingleStore                  \
-#        --model-package=SingleStore                \
-#        --package-name=SingleStoreClient           \
-#        --invoker-package=SingleStoreClient        \
 
 # Copy the example over to the output directory.
 EXAMPLE="${MYDIR}/examples/example.${LANGUAGE}"
