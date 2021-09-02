@@ -15,7 +15,7 @@ All clients have been generated from SingleStore's OpenAPI 3.0 spec using [opena
 
 This repo provides detailed examples for each supported language.  We recommend reading through the comments and code in the example file for your target language before writing your own.
 
-All example files can be found in the `examples` directory.  Additionally, each example file is duplicated in its corresponding language-specific folder, where it has been designed to be executed.  At the top of each example file, you can find information about how to configure and run it.
+All example files can be found in the `examples` directory.  Additionally, each example file is duplicated in its corresponding client's directory, where it has been designed to be executed.  At the top of each example file, you can find information about how to configure and run it.
 
 ## Documentation
 
