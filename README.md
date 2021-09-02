@@ -7,15 +7,15 @@ This repository is a collection of language-specific client wrappers around [Sin
 | JavaScript      | [/js](js)    |
 | PHP             | [/php](php)  |
 
-All clients have been generated from SingleStore's OpenAPI 3.0 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  A copy of this spec is included in this repo, and also available by querying the following REST endpoint on a SingleStore HTTP Proxy Server:
+All clients have been generated from SingleStore's OpenAPI 3.0 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  This spec can be downloaded by querying the following REST endpoint on a SingleStore HTTP Proxy Server:
 
     GET /api/v1/spec
 
 ## Examples
 
-This repo provides detailed examples for each supported language.  We recommend reading through the comments and code in the example file for your target language before writing your own.
+This repo provides detailed [examples](examples) for each supported language.  We recommend reading through the comments and code in the example file for your target language before writing your own.
 
-All example files can be found in the `examples` directory.  Additionally, each example file is duplicated in its corresponding client's directory, where it has been designed to be executed.  At the top of each example file, you can find information about how to configure and run it.
+All example files can be found in the [`examples`](examples) directory.  Additionally, each example file is duplicated in its corresponding client's directory, where it has been designed to be executed.  At the top of each example file, you can find information about how to configure and run it.
 
 ## Documentation
 
@@ -27,7 +27,7 @@ Finally, each client's directory contains a README file that was also created by
 
 ## Building
 
-For convenience, this repo provides pregenerated clients for all supported languages, each found in its own respective directory.  If you wish, you can re-generate them by using the `generate-client.sh` script.  For more information, run `generate-client.sh --help`.
+For convenience, this repo provides pregenerated clients for all supported languages, each found in its own respective directory.  If you wish, you can re-generate them by using the [`generate-client.sh`](generate-client.sh) script.  For more information, run `generate-client.sh --help`.
 
 ## Contributing
 
