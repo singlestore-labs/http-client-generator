@@ -1,8 +1,7 @@
 <?php
 
-// This example runs in PHP.  It creates an HTTP server and whenever the 
-// baseURL is hit, it sends a few database queries to the SingleStore 
-// database using a PHP wrapper around the SingleStore REST API.  HTML 
+// This example runs in PHP.  It sends a few database queries to the 
+// SingleStore database using a wrapper around the SingleStore REST API.  HTML 
 // content is returned.
 //
 // Here is one way to run these examples:  
