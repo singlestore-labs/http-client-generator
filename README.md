@@ -35,7 +35,7 @@ For convenience, this repo provides pregenerated clients for all supported langu
 
 ## Known Issues
 
-The `/api/v1/spec` endpoint is included in the API, but is not accessible yet in SingleStore, and will return a 404.  It will be available soon.  In the meantime the [OpenAPI 3.0 spec](openapi3) can be downloaded from this repository.
+The `/api/v1/spec` endpoint is included in the API, but is not accessible yet in SingleStore, and will return a 404.  It will be available soon.  In the meantime the [OpenAPI 3.0 spec](openapi3.yaml) can be downloaded from this repository.
 
 ## Contributing
 
