@@ -7,7 +7,11 @@ This repository is a collection of language-specific client wrappers around [Sin
 | JavaScript      | [/js](js)    |
 | PHP             | [/php](php)  |
 
-All clients have been generated from SingleStore's OpenAPI 3.0 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  This spec can be downloaded by querying the following REST endpoint on a SingleStore HTTP Proxy Server:
+All clients have been generated from SingleStore's OpenAPI 3.0 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  
+
+The [spec](openapi3.yaml) is available in this repo.
+
+In an upcoming release, the spec will be downloadable by querying the following REST endpoint on a SingleStore HTTP Proxy Server:
 
     GET /api/v1/spec
 
@@ -28,6 +32,10 @@ Finally, each client's directory contains a README file that was also created by
 ## Building
 
 For convenience, this repo provides pregenerated clients for all supported languages, each found in its own respective directory.  If you wish, you can re-generate them by using the [`generate-client.sh`](generate-client.sh) script.  For more information, run `generate-client.sh --help`.
+
+## Known Issues
+
+The `/api/v1/spec` endpoint is included in the API, but is not accessible yet in SingleStore, and will return a 404.  It will be available soon.  In the meantime the [OpenAPI 3.0 spec](openapi3) can be downloaded from this repository.
 
 ## Contributing
 
