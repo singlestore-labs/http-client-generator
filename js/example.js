@@ -1,4 +1,4 @@
-// This example runs on Node.js, and assumes that @singlestore/http-client-js
+// This example runs on Node.js, and assumes that @singlestore/http-client
 // has been published to an accessible registry.  It creates an HTTP server
 // and whenever the baseURL is hit, it sends a few database queries to the 
 // SingleStore database using a JavaScript wrapper around the SingleStore
@@ -16,7 +16,7 @@
 //     - Make sure you are in this repo's "js" directory.
 //
 //     - Run:
-//           npm install @singlestore/http-client-js --save
+//           npm install @singlestore/http-client --save
 //
 //     - Run:
 //           npm run build
@@ -42,7 +42,7 @@ const http = require('http');
 const nodeHost = '127.0.0.1';
 const nodePort = 8081;
 
-var SingleStoreClient = require('@singlestore/http-client-js');
+var SingleStoreClient = require('@singlestore/http-client');
 
 const server = http.createServer(async function(req, res) {
     console.log("Handling request...");

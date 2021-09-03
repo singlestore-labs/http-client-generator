@@ -87,28 +87,6 @@ SUPPORTED="js php"
 echo "${SUPPORTED}" | "${_GREP}" -wq "${LANGUAGE}" > /dev/null 2>&1
 check-err "Unsupported language: ${LANGUAGE}"
 
-# Map the input language to the generator language.
-GENLANG=
-GENPRMS=
-case "${LANGUAGE}" in
-    php)
-        GENLANG=php
-
-        GENPRMS+=" -p licenseName=Apache"
-        GENPRMS+=" -p moduleName=SingleStoreModule"
-        GENPRMS+=" -p legacyDiscriminatorBehavior=false"
-        ;;
-    js)
-        GENLANG=javascript
-
-        GENPRMS="  -p projectName=@singlestore/http-client-js"
-        GENPRMS+=" -p licenseName=Apache"
-        GENPRMS+=" -p moduleName=SingleStoreClient"
-        GENPRMS+=" -p usePromises=true"
-        ;;
-    *)   impossible        ;;
-esac
-
 # Create the output directory.
 "${_MKDIR}" -p "${OUTDIR}"
 check-err "Error creating directory ${OUTDIR}.  Exiting."
@@ -130,6 +108,36 @@ case "${SRCTYPE}" in
     *)
         impossible
         ;;
+esac
+
+# Scrape out the version information from the spec.  Version specification
+# seems to be inconsistent between generators.
+SPECVER=$(${_GREP} -oP '  version: "\K[^"]*' < "${SPECFILE}")
+check-err "Could not find version field in spec file.  Exiting..."
+
+# Map the input language to the generator language.
+GENLANG=
+GENPRMS=
+case "${LANGUAGE}" in
+    php)
+        GENLANG=php
+
+        GENPRMS+=" -p projectName=singlestore/http-client"
+        GENPRMS+=" -p licenseName=Apache"
+        GENPRMS+=" -p moduleName=SingleStoreClient"
+        GENPRMS+=" -p legacyDiscriminatorBehavior=false"
+        GENPRMS+=" -p composerPackageName=singlestore/http-client"
+        GENPRMS+=" -p artifactVersion=${SPECVER}"
+        ;;
+    js)
+        GENLANG=javascript
+
+        GENPRMS="  -p projectName=@singlestore/http-client"
+        GENPRMS+=" -p licenseName=Apache"
+        GENPRMS+=" -p moduleName=SingleStoreClient"
+        GENPRMS+=" -p usePromises=true"
+        ;;
+    *)   impossible        ;;
 esac
 
 # Get user and group IDs.

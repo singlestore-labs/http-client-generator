@@ -23,7 +23,7 @@ Executes a SQL statement without returning result sets; typically used for execu
 ### Example
 
 ```javascript
-import SingleStoreClient from '@singlestore/http-client-js';
+import SingleStoreClient from '@singlestore/http-client';
 let defaultClient = SingleStoreClient.ApiClient.instance;
 // Configure HTTP basic authorization: BasicAuth
 let BasicAuth = defaultClient.authentications['BasicAuth'];
@@ -74,7 +74,7 @@ Verifies that the HTTP service is running and connectable.  Note: To verify that
 ### Example
 
 ```javascript
-import SingleStoreClient from '@singlestore/http-client-js';
+import SingleStoreClient from '@singlestore/http-client';
 let defaultClient = SingleStoreClient.ApiClient.instance;
 // Configure HTTP basic authorization: BasicAuth
 let BasicAuth = defaultClient.authentications['BasicAuth'];
@@ -119,7 +119,7 @@ Executes a SQL statement and returns result sets; typically used for the SELECT 
 ### Example
 
 ```javascript
-import SingleStoreClient from '@singlestore/http-client-js';
+import SingleStoreClient from '@singlestore/http-client';
 let defaultClient = SingleStoreClient.ApiClient.instance;
 // Configure HTTP basic authorization: BasicAuth
 let BasicAuth = defaultClient.authentications['BasicAuth'];
@@ -170,7 +170,7 @@ Returns the OpenAPI specification for this service.
 ### Example
 
 ```javascript
-import SingleStoreClient from '@singlestore/http-client-js';
+import SingleStoreClient from '@singlestore/http-client';
 let defaultClient = SingleStoreClient.ApiClient.instance;
 // Configure HTTP basic authorization: BasicAuth
 let BasicAuth = defaultClient.authentications['BasicAuth'];
@@ -215,7 +215,7 @@ Executes a SQL statement and returns result sets along with the schema; typicall
 ### Example
 
 ```javascript
-import SingleStoreClient from '@singlestore/http-client-js';
+import SingleStoreClient from '@singlestore/http-client';
 let defaultClient = SingleStoreClient.ApiClient.instance;
 // Configure HTTP basic authorization: BasicAuth
 let BasicAuth = defaultClient.authentications['BasicAuth'];
