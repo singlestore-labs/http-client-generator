@@ -118,26 +118,71 @@ const server = http.createServer(async function(req, res) {
 
     // This is where we'll populate the page content.
     content = '';
-    code = 200;
 
     // Get the API handle.
     var api = new SingleStoreClient.DefaultApi();
 
-    // Issue each API request in a promise.
+    // Issue each of the above API request in a promise.  We'll start by using 
+    // a synchronous pattern while we create the data, then switch to the
+    // asynchronous pattern while we query it..
     console.log("Executing queries...");
+
+    // Endpoint: /ping
+    content += '<b><h2>/ping</h2></b>';
+    await api.ping()
+        .then((result) => {
+            content += '<tt>' + result.toString() + '</tt><br>';
+        }, 
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
+    content += '<hr>';
+
+    // Endpoint: /api/v1/spec
+    content += '<b><h2>/api/v1/spec</h2></b>';
+    await api.spec()
+        .then((result) => {
+            content += '<tt>' + result.toString() + '</tt><br>';
+        },
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
+    content += '<hr>';
+
+    // Endpoint: /api/v1/exec
+    content += '<b><h2>/api/v1/exec</h2></b>';
+    await api.exec(execParms_createDB)
+        .then((result) => {
+            content += '<i>createDB</i>:<br><tt>'  + JSON.stringify(result) + '</tt><br><br>';
+        },
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
+    await api.exec(execParms_createTbl)
+        .then((result) => {
+            content += '<i>createTbl</i>:<br><tt>' + JSON.stringify(result) + '</tt><br><br>';
+        },
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
+    await api.exec(execParms_insertTbl)
+        .then((result) => {
+            content += '<i>insertTbl</i>:<br><tt>' + JSON.stringify(result) + '</tt><br><br>';
+        },
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
+    content += '<hr>';
+
+    // Now we'll asynchronously perform a few selects using the "rows" and
+    // "tuples" form.
     await Promise
     .all([ 
-        // Endpoint: /ping
-        api.ping(), 
-
-        // Endpoint: /api/v1/spec
-        api.spec(),
-    
-        // Endpoint: /api/v1/exec
-        api.exec(execParms_createDB),
-        api.exec(execParms_createTbl),
-        api.exec(execParms_insertTbl),
-
         // Endpoint: /api/v1/rows
         api.rows(queryParms_selectOne),
         api.rows(queryParms_selectAll),
@@ -146,42 +191,24 @@ const server = http.createServer(async function(req, res) {
         api.tuples(queryParms_selectOne),
         api.tuples(queryParms_selectAll),
     ])
-    .then(function(result) {
-        console.log('Resolving ping...');
-        content += '<b><h2>/ping</h2></b>';
-        content += '<tt>' + result[0].toString() + '</tt><br>';
-        content += '<hr>';
-
-        console.log('Resolving spec...');
-        content += '<b><h2>/api/v1/spec</h2></b>';
-        content += '<tt>' + result[1].toString() + '</tt><br>';
-        content += '<hr>';
-
-        console.log('Resolving exec...');
-        content += '<b><h2>/api/v1/exec</h2></b>';
-        content += '<i>createDB</i>:<br><tt>'  + JSON.stringify(result[2]) + '</tt><br><br>';
-        content += '<i>createTbl</i>:<br><tt>' + JSON.stringify(result[3]) + '</tt><br><br>';
-        content += '<i>insertTbl</i>:<br><tt>' + JSON.stringify(result[4]) + '</tt><br><br>';
-        content += '<hr>';
-
-        console.log('Resolving rows...');
+    .then((result) => {
+        // Resolve /api/v1/rows.
         content += '<b><h2>/api/v1/rows</h2></b>';
-        content += '<i>selectOne</i>:<br><tt>' + JSON.stringify(result[5]) + '</tt><br><br>';
-        content += '<i>selectAll</i>:<br><tt>' + JSON.stringify(result[6]) + '</tt><br><br>';
+        content += '<i>selectOne</i>:<br><tt>' + JSON.stringify(result[0]) + '</tt><br><br>';
+        content += '<i>selectAll</i>:<br><tt>' + JSON.stringify(result[1]) + '</tt><br><br>';
         content += '<hr>';
 
-        console.log('Resolving tuples...');
+        // Resolve /api/v1/tuples.
         content += '<b><h2>/api/v1/tuples</h2></b>';
-        content += '<i>selectOne</i>:<br><tt>' + JSON.stringify(result[7]) + '</tt><br><br>';
-        content += '<i>selectAll</i>:<br><tt>' + JSON.stringify(result[8]) + '</tt><br><br>';
+        content += '<i>selectOne</i>:<br><tt>' + JSON.stringify(result[2]) + '</tt><br><br>';
+        content += '<i>selectAll</i>:<br><tt>' + JSON.stringify(result[3]) + '</tt><br><br>';
     })
-    .catch(function(error) {
+    .catch((error) => {
         console.log(error);
-        code = 500;
-        content = error.toString();
+        content += "ERROR: " + err.status;
     });
 
-    res.statusCode = code;
+    res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
     res.end(content);
     console.log("Request completed.");
