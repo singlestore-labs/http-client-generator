@@ -56,6 +56,36 @@ impossible() {
     exit 1
 }
 
+jq-in-place() {
+    local EXPR="$1"
+    local TGT="$2"
+    local TMPFILE="`mktemp`"
+
+    ${_JQ} "${EXPR}" "${TGT}" > "$TMPFILE"
+    check-err "Error running 'jq'.  Exiting."
+    ${_MV} "${TMPFILE}" "${TGT}"
+    check-err "Error overwrite ${TGT}.  Exiting."
+    ${_RM} -f "$TMPFILE"
+    check-err "Error removing ${TMPFILE}.  Exiting."
+}
+
+patch-php() {
+    # The package.json file openapi-generator creates doesn't have many 
+    # anchors for extension, and I don't want to template the whole thing
+    # because there's a lot of stuff in there that's apt to change.  So,
+    # We'll just hack in some values that apparently aren't templatable
+    # using 'jq'.
+    COMPJSON="${OUTDIR}/composer.json"
+    jq-in-place '.license |= "Apache-2.0"' "${COMPJSON}"
+    jq-in-place '.homepage |= "https://singlestore.com"' "${COMPJSON}"
+    jq-in-place '.authors |= [{ "name": "SingleStore", "homepage": "http://www.singlestore.com"}] + .' "${COMPJSON}"
+}
+
+patch-js() {
+    # No-op for now.
+    echo > /dev/null
+}
+
 # Check args.
 [ $# -ne 4 ] && usage
 SRCTYPE=$1
@@ -74,10 +104,13 @@ _DIRNAME=$(find-cmd dirname)
 _MKDIR=$(find-cmd mkdir)
 _PWD=$(find-cmd pwd)
 _CP=$(find-cmd cp)
+_MV=$(find-cmd mv)
+_RM=$(find-cmd rm)
 _ID=$(find-cmd id)
 _GREP=$(find-cmd grep)
 _DOCKER=$(find-cmd docker)
 _CURL=$(find-cmd curl)
+_JQ=$(find-cmd jq)
 
 # Get this script's dir.
 MYDIR=$(cd $("${_DIRNAME}" "$0") && ${_PWD})
@@ -156,6 +189,14 @@ done <<-EOF
     ${MYDIR}/CONTRIBUTING.md
     ${MYDIR}/LICENSE
 EOF
+
+# Do some post-process patching.
+echo "Patching files ..."
+case "${LANGUAGE}" in
+    php) patch-php  ;;
+    js)  patch-js   ;;
+    *)   impossible ;;
+esac
 
 echo "Done."
 
