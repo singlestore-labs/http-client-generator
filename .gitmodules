@@ -1,0 +1,6 @@
+[submodule "clients/js"]
+	path = clients/js
+	url = git@github.com:singlestore-labs/http-client-js
+[submodule "clients/php"]
+	path = clients/php
+	url = git@github.com:singlestore-labs/http-client-php
