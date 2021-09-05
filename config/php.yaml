@@ -1,0 +1,12 @@
+additionalProperties:
+  projectName: singlestore/http-client
+  licenseName: Apache 2.0
+  moduleName: SingleStoreClient
+  composerPackageName: singlestore/http-client
+  infoUrl: https://docs.singlestore.com/managed-service/en/reference/http-api.html
+
+files:
+  README.mustache:
+    templateType: SupportingFiles
+    destinationFilename: README.md
+    

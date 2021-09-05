@@ -110,34 +110,12 @@ case "${SRCTYPE}" in
         ;;
 esac
 
-# Scrape out the version information from the spec.  Version specification
-# seems to be inconsistent between generators.
-SPECVER=$(${_GREP} -oP '  version: "\K[^"]*' < "${SPECFILE}")
-check-err "Could not find version field in spec file.  Exiting..."
-
 # Map the input language to the generator language.
 GENLANG=
-GENPRMS=
 case "${LANGUAGE}" in
-    php)
-        GENLANG=php
-
-        GENPRMS+=" -p projectName=singlestore/http-client"
-        GENPRMS+=" -p licenseName=Apache"
-        GENPRMS+=" -p moduleName=SingleStoreClient"
-        GENPRMS+=" -p legacyDiscriminatorBehavior=false"
-        GENPRMS+=" -p composerPackageName=singlestore/http-client"
-        GENPRMS+=" -p artifactVersion=${SPECVER}"
-        ;;
-    js)
-        GENLANG=javascript
-
-        GENPRMS="  -p projectName=@singlestore/http-client"
-        GENPRMS+=" -p licenseName=Apache"
-        GENPRMS+=" -p moduleName=SingleStoreClient"
-        GENPRMS+=" -p usePromises=true"
-        ;;
-    *)   impossible        ;;
+    php) GENLANG=php        ;;
+    js)  GENLANG=javascript ;;
+    *)   impossible         ;;
 esac
 
 # Get user and group IDs.
@@ -149,26 +127,35 @@ check-err "Error getting group ID.  Exiting."
 # Generate the client.
 echo "Generating client API ..."
 IMAGE=openapitools/openapi-generator-cli
-${_DOCKER} run                                     \
-    --rm -v "${OUTDIR}:/out"                       \
-    --user ${USRID}:${GRPID}                       \
-    ${IMAGE}                                       \
-    generate                                       \
-        -i /out/openapi3.yaml                      \
-        -g "${GENLANG}"                            \
-        -o /out                                    \
-        --api-package=Client                       \
-        --model-package=Client                     \
-        --package-name=SingleStore                 \
-        --invoker-package=SingleStore              \
-        ${GENPRMS}                                 \
+${_DOCKER} run                                  \
+    --rm                                        \
+    -v "${OUTDIR}:/out"                         \
+    -v "${MYDIR}:/src"                          \
+    --user ${USRID}:${GRPID}                    \
+    ${IMAGE}                                    \
+    generate                                    \
+        -i /src/openapi3.yaml                   \
+        -g "${GENLANG}"                         \
+        -c "/src/config/${LANGUAGE}.yaml"       \
+        -o /out                                 \
+        -t "/src/templates/${LANGUAGE}"         \
+        --api-package=Client                    \
+        --model-package=Client                  \
+        --package-name=SingleStore              \
+        --invoker-package=SingleStore           \
     > /dev/null
 check-err "Error generating client.  Exiting."
 
-# Copy the example over to the output directory.
-EXAMPLE="${MYDIR}/examples/example.${LANGUAGE}"
-echo "Adding example file: ${EXAMPLE} ..."
-"${_CP}" "${EXAMPLE}" "${OUTDIR}"
+
+# Copy the suppmental files over to the output directory.
+echo "Adding supplemental files ..."
+while read SUPPFILE ; do 
+    "${_CP}" "${SUPPFILE}" "${OUTDIR}"
+done <<-EOF
+    ${MYDIR}/examples/example.${LANGUAGE}
+    ${MYDIR}/CONTRIBUTING.md
+    ${MYDIR}/LICENSE
+EOF
 
 echo "Done."
 

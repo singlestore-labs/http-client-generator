@@ -6,31 +6,32 @@
 //
 // Here is one way to run these examples:  
 //
-//     - Ensure that the "composer" and "php" programs are installed locally.
+//     - Ensure that you have installed the library using the instructions
+//       in the README.md file for this package.
 //
 //     - In this file, update the S2USER and S2PASS constants with an 
 //       appropriate username and password for your SingleStore database.
 //       Also, ensure that S2PROXY points to the host and port of the
 //       SingleStore HTTP Proxy.
 //
-//     - Make sure you are in this repo's "php" directory.
-//
-//     - Run:
-//           composer update
-//
-//     - Run:
-//           composer install
-//
-//     - Start a local PHP server on port 8081:
+//     - Start a local PHP server, for example on port 8081:
 //
 //           php -S 127.0.0.1:8081
 //
-//       If you need to user a different host or port, substitute with 
+//       If you need to use a different host or port, substitute with 
 //       different values in the above command.
 //
 //     - In your browser, go to "localhost:8081/example.php" (or substitute with 
 //       your custom PHP host/port).
 //
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// BASIC EXAMPLE
+//
+// This will get you started.
+//
+//////////////////////////////////////////////////////////////////////////////
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
@@ -47,13 +48,10 @@ $config = SingleStore\Configuration::getDefaultConfiguration()
 // If you want use a custom http client, pass a client that implements 
 // `GuzzleHttp\ClientInterface`.  Otherwise, `GuzzleHttp\Client` will be 
 // used as default.
-$apiInstance = new SingleStore\Client\DefaultApi(
+$apiInstance = new SingleStore\Client\HttpApi(
     new GuzzleHttp\Client(),
     $config
 );
-
-// Create a random string for use in the calls below.
-$label = str_shuffle('abcdefghijklmnopqrstuvwxyz');
 
 // Endpoint: /ping
 try {
@@ -61,9 +59,17 @@ try {
     $result = $apiInstance->ping();
     print('<tt>' . $result . '</tt><br>');
 } catch (Exception $e) {
-    echo 'Exception when calling DefaultApi->ping: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling HttpApi->ping: ', $e->getMessage(), PHP_EOL;
 }
 print('<hr>');
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// EXTENDED EXAMPLE
+//
+// The following builds on the above to illustrate other API calls and usage.
+//
+//////////////////////////////////////////////////////////////////////////////
 
 // Endpoint: /api/v1/spec
 try {
@@ -74,6 +80,9 @@ try {
     echo 'Exception: ', $e->getMessage(), PHP_EOL;
 }
 print('<hr>');
+
+// Create a random string for use in the calls below.
+$label = str_shuffle('abcdefghijklmnopqrstuvwxyz');
 
 // Endpoint: /api/v1/exec
 try {

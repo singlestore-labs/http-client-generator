@@ -2,10 +2,10 @@
 
 This repository is a collection of language-specific client wrappers around [SingleStore's HTTP API](https://docs.singlestore.com/managed-service/en/reference/http-api.html).  Supported programming languages are listed below.
 
-| Client Language | Directory    |
-|-----------------|--------------|
-| JavaScript      | [/js](js)    |
-| PHP             | [/php](php)  |
+| Client Language | Directory                   |
+|-----------------|-----------------------------|
+| JavaScript      | [clients/js](clients/js)    |
+| PHP             | [clients/php](clients/php)  |
 
 All clients have been generated from SingleStore's OpenAPI 3.0 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  
 

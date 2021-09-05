@@ -13,8 +13,6 @@
 //       Also, ensure that S2PROXY points to the host and port of the 
 //       SingleStore HTTP Proxy.
 //
-//     - Make sure you are in this repo's "js" directory.
-//
 //     - Run:
 //           npm install @singlestore/http-client --save
 //
@@ -33,29 +31,83 @@
 //       custom values for "nodeHost"/"nodePort").
 //
 
-const S2USER  = 'root';
-const S2PASS  = '';
-const S2PROXY = 'localhost:8080';
-
 const http = require('http');
 
 const nodeHost = '127.0.0.1';
 const nodePort = 8081;
 
-var SingleStoreClient = require('@singlestore/http-client');
-
 const server = http.createServer(async function(req, res) {
     console.log("Handling request...");
-    var defaultClient = SingleStoreClient.ApiClient.instance;
+
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // BASIC EXAMPLE
+    //
+    // This will get you started.
+    //
+    ///////////////////////////////////////////////////////////////////////////
+
+    const S2USER  = 'root';
+    const S2PASS  = '';
+    const S2PROXY = 'localhost:8080';
+    
+    var SingleStoreClient = require('@singlestore/http-client');
+    var instance = SingleStoreClient.ApiClient.instance;
 
     // Configure HTTP basic authorization: BasicAuth
-    var BasicAuth = defaultClient.authentications['BasicAuth'];
+    var BasicAuth = instance.authentications['BasicAuth'];
     BasicAuth.username = S2USER;
     BasicAuth.password = S2PASS;
 
     // Set the SingleStore proxy's host and port.
-    defaultClient.basePath = 'http://' + S2PROXY;
-    console.log("Using SingleStore Proxy on " + defaultClient.basePath);
+    instance.basePath = 'http://' + S2PROXY;
+    console.log("Using SingleStore Proxy on " + instance.basePath);
+
+    // Get the API handle.
+    var api = new SingleStoreClient.HttpApi();
+
+    // Issue request in a promise.  We'll start by using a synchronous pattern 
+    // while we ping the server and create the data, then switch to the
+    // asynchronous pattern while we query it.
+    console.log("Executing queries...");
+
+    // This is where we'll populate the page content.
+    content = '';
+
+    // Endpoint: /ping
+    content += '<b><h2>/ping</h2></b>';
+    await api.ping()
+        .then((result) => {
+            content += '<tt>' + result.toString() + '</tt><br>';
+        }, 
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
+    content += '<hr>';
+
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // EXTENDED EXAMPLE
+    //
+    // The following builds on above to illustrate other API calls and usage.
+    //
+    ///////////////////////////////////////////////////////////////////////////
+
+    // Endpoint: /api/v1/spec
+    content += '<b><h2>/api/v1/spec</h2></b>';
+    await api.spec()
+        .then((result) => {
+            content += '<tt>' + result.toString() + '</tt><br>';
+        },
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
+    content += '<hr>';
+
+    // Endpoint: /api/v1/exec
+    content += '<b><h2>/api/v1/exec</h2></b>';
 
     // Here's one way to initialize a query's parameters -- pass the SQL 
     // into the constructor of the input object.
@@ -64,6 +116,14 @@ const server = http.createServer(async function(req, res) {
             new SingleStoreClient.ExecInput(
                 'CREATE DATABASE IF NOT EXISTS jstest;')
     };
+    await api.exec(execParms_createDB)
+        .then((result) => {
+            content += '<i>createDB</i>:<br><tt>'  + JSON.stringify(result) + '</tt><br><br>';
+        },
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
 
     // In this query, we'll provide a database to the query as well.  Since 
     // this query uses multiple fields in the input object, we'll initialize
@@ -78,6 +138,14 @@ const server = http.createServer(async function(req, res) {
                     'extra_data JSON);'
         }
     };
+    await api.exec(execParms_createTbl)
+        .then((result) => {
+            content += '<i>createTbl</i>:<br><tt>' + JSON.stringify(result) + '</tt><br><br>';
+        },
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
 
     // Similar in form to the previous query, this one utilizes the "args" 
     // parameter to match the corresponding '?' symbols in the SQL query.  The
@@ -96,10 +164,22 @@ const server = http.createServer(async function(req, res) {
             args: [ label, extra ]
         }
     };
+    await api.exec(execParms_insertTbl)
+        .then((result) => {
+            content += '<i>insertTbl</i>:<br><tt>' + JSON.stringify(result) + '</tt><br><br>';
+        },
+        (err) => {
+            console.log(err);
+            content += "ERROR: " + err.status;
+        });
+    content += '<hr>';
 
-    // Now we will issue a query for the row we just inserted, using the
-    // "args" to pass the label.  Both the "rows" and the "tuples" endpoint
-    // will use the same input.
+    // Now we will issue some asynchronous queries for the row we just 
+    // inserted, using the "args" to pass the label.  Both the "rows" and 
+    // the "tuples" endpoint will use the same input.  Since we'll be
+    // running all the requests at once, we'll first build all the queries.
+    
+    // Select the row we inserted.
     queryParms_selectOne = {
         queryInput: {
             database: 'jstest',
@@ -116,71 +196,8 @@ const server = http.createServer(async function(req, res) {
         }
     };
 
-    // This is where we'll populate the page content.
-    content = '';
-
-    // Get the API handle.
-    var api = new SingleStoreClient.DefaultApi();
-
-    // Issue each of the above API request in a promise.  We'll start by using 
-    // a synchronous pattern while we create the data, then switch to the
-    // asynchronous pattern while we query it..
-    console.log("Executing queries...");
-
-    // Endpoint: /ping
-    content += '<b><h2>/ping</h2></b>';
-    await api.ping()
-        .then((result) => {
-            content += '<tt>' + result.toString() + '</tt><br>';
-        }, 
-        (err) => {
-            console.log(err);
-            content += "ERROR: " + err.status;
-        });
-    content += '<hr>';
-
-    // Endpoint: /api/v1/spec
-    content += '<b><h2>/api/v1/spec</h2></b>';
-    await api.spec()
-        .then((result) => {
-            content += '<tt>' + result.toString() + '</tt><br>';
-        },
-        (err) => {
-            console.log(err);
-            content += "ERROR: " + err.status;
-        });
-    content += '<hr>';
-
-    // Endpoint: /api/v1/exec
-    content += '<b><h2>/api/v1/exec</h2></b>';
-    await api.exec(execParms_createDB)
-        .then((result) => {
-            content += '<i>createDB</i>:<br><tt>'  + JSON.stringify(result) + '</tt><br><br>';
-        },
-        (err) => {
-            console.log(err);
-            content += "ERROR: " + err.status;
-        });
-    await api.exec(execParms_createTbl)
-        .then((result) => {
-            content += '<i>createTbl</i>:<br><tt>' + JSON.stringify(result) + '</tt><br><br>';
-        },
-        (err) => {
-            console.log(err);
-            content += "ERROR: " + err.status;
-        });
-    await api.exec(execParms_insertTbl)
-        .then((result) => {
-            content += '<i>insertTbl</i>:<br><tt>' + JSON.stringify(result) + '</tt><br><br>';
-        },
-        (err) => {
-            console.log(err);
-            content += "ERROR: " + err.status;
-        });
-    content += '<hr>';
-
     // Now we'll asynchronously perform a few selects using the "rows" and
-    // "tuples" form.
+    // "tuples" forms.
     await Promise
     .all([ 
         // Endpoint: /api/v1/rows
@@ -208,10 +225,11 @@ const server = http.createServer(async function(req, res) {
         content += "ERROR: " + err.status;
     });
 
+    // Complete the response.
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
     res.end(content);
-    console.log("Request completed.");
+    console.log("Request processed.");
 });
 
 server.listen(nodePort, nodeHost, () => {
