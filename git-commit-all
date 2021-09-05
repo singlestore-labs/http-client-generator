@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+check-err() {
+    local CODE=$?
+    local MSG="$1"
+    if [ $CODE -ne 0 ] ; then
+        echo ERROR: "$MSG"
+        exit 1
+    fi
+}
+
+echo "--------------------------------"
+echo "Submodules: git commit"
+echo "--------------------------------"
+for SUB in `git submodule status | awk '{print $2;}'` ; do
+    cd $SUB
+    if [ $(git status --porcelain | wc -l) -ne 0 ] ; then 
+        git commit "$@"
+        check-err "Committing to submodule \"$SUB\"."
+    fi
+    cd ..
+done
+
+echo
+
+echo "--------------------------------"
+echo "Main: git commit"
+echo "--------------------------------"
+if [ $(git status --porcelain | wc -l) -ne 0 ] ; then 
+    git commit "$@"
+    check-err "Committing to main."
+fi
+
