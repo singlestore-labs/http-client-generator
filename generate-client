@@ -75,15 +75,25 @@ patch-php() {
     # because there's a lot of stuff in there that's apt to change.  So,
     # We'll just hack in some values that apparently aren't templatable
     # using 'jq'.
-    COMPJSON="${OUTDIR}/composer.json"
+    local COMPJSON="${OUTDIR}/composer.json"
     jq-in-place '.license |= "Apache-2.0"' "${COMPJSON}"
     jq-in-place '.homepage |= "https://singlestore.com"' "${COMPJSON}"
     jq-in-place '.authors |= [{ "name": "SingleStore", "homepage": "http://www.singlestore.com"}] + .' "${COMPJSON}"
 }
 
 patch-js() {
-    # No-op for now.
-    echo > /dev/null
+    # The JS openapi-generator wants to "sanitize" the description in the
+    # package.json file, which ends up substituting an underscore for all 
+    # spaces and punctuation.  Seems to be a bug.  To workaround, we'll
+    # grab the decription out of the input YAML spec and replace it ourselves.
+    SPECDESC=`"${_DOCKER}" run --rm \
+        -v "${OUTDIR}":/work       \
+        mikefarah/yq               \
+            eval '.info.description' /work/openapi3.yaml
+    `
+    check-err "Error running 'yq'.  Exiting."
+    local PACKJSON="${OUTDIR}/package.json"
+    jq-in-place ".description |= \"$SPECDESC\"" "${PACKJSON}"
 }
 
 # Check args.
