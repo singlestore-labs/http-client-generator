@@ -17,7 +17,7 @@ In an upcoming release, the spec will be downloadable by querying the following 
 
 ## Cloning
 
-This repository contains submodules (explained below).  Please use the `--recurse-submodules` options when cloning it.  For example:
+This repository contains submodules (explained below).  Please use the `--recurse-submodules` option when cloning it.  For example:
 
     git clone https://github.com/singlestore-labs/http-client-generator.git --recurse-submodules
 
@@ -41,9 +41,9 @@ This submodule layout makes it convenient for us to re-generate clients and ensu
 
 To generate a client, run the `generate-client` script with:
 
-    - the location of the openapi3.yaml source file
-    - the target language
-    - the output directory
+* the location of the openapi3.yaml source file
+* the target language
+* the output directory
 
 Running `generate-client --help` will provide more information.  
 
