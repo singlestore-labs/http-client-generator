@@ -69,5 +69,5 @@ This can get tedious, so I've found it helpful to leverage some third-party tool
     git rcommit -am "Regenerated clients"
     git rpush
 
-Think of these client repositories as transient; they are not intended to be updated directly.  Instead, the code generator should be modified in a way that each client can be completely regenerated and then re-pushed from the submodule.
+Think of these client repositories as transient; they are not intended to be updated directly.  Instead, the code generator should be modified in a way that each client can be completely regenerated and then re-pushed to the submodule.
 
