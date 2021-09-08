@@ -2,10 +2,12 @@
 
 This repository is a generator for language-specific client wrappers around [SingleStore's HTTP API](https://docs.singlestore.com/managed-service/en/reference/http-api.html).  Currently supported programming languages are listed below.
 
-| Client Language | Directory                   |
-|-----------------|-----------------------------|
-| JavaScript      | [clients/js](clients/js)    |
-| PHP             | [clients/php](clients/php)  |
+| Client Language | Directory                   | Main Repo |
+|-----------------|-----------------------------|-----------
+| JavaScript      | [clients/js](clients/js)    | [http-client-js](https://github.com/singlestore-labs/http-client-js) |
+| PHP             | [clients/php](clients/php)  | [http-client-php](https://github.com/singlestore-labs/http-client-php) |
+
+*NOTE*:  This repository is designed strictly to support the generation of SingleStore HTTP clients.  To access the actual client implementaions, please use the "Main Repo" in the table above.
 
 All clients have been generated from SingleStore's OpenAPI 3.0 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  
 
@@ -30,7 +32,7 @@ This repo is laid out as follows.
 | /          | Contains main generator script. |
 | /clients   | Contains a destination directory for each generated client. |
 | /config    | Language-specific configuration files for openapi-generator. |
-| /examples  | Langugae-specific example files to be copied into the corresponding generated client directory. |
+| /examples  | Language-specific example files to be copied into the corresponding generated client directory. |
 | /templates | A subdirectory of mustache templates for each language.  These override and/or augment the default openapi-generator ones. |
 
 The `/clients` directory has a sub-directory for each generate client, named according to its language.  Each of these subdirectories is represented as a [Git Submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules).  This means that the subdirectory is itself actually a pointer to a separate, standalone Git repository.  These repository mappings are expressed in the [.gitmodules](.gitmodules) file.
