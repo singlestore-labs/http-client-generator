@@ -7,7 +7,7 @@ This repository is a generator for language-specific client wrappers around [Sin
 | JavaScript      | [clients/js](clients/js)    | [http-client-js](https://github.com/singlestore-labs/http-client-js) |
 | PHP             | [clients/php](clients/php)  | [http-client-php](https://github.com/singlestore-labs/http-client-php) |
 
-*NOTE*:  This repository is designed strictly to support the generation of SingleStore HTTP clients.  To access the actual client implementaions, please use the "Main Repo" in the table above.
+**NOTE:  This repository is designed strictly to support the generation of SingleStore HTTP clients.  To access the actual client implementations, please use the "Main Repo" linked in the table above.**
 
 All clients have been generated from SingleStore's OpenAPI 3.0 spec using [openapi-generator](https://github.com/OpenAPITools/openapi-generator).  
 
