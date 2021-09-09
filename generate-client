@@ -25,10 +25,10 @@ Supported languages:
 
 Examples:
     Generate a PHP client from the S2 Proxy on localhost, port 8080:
-        `basename $0` localhost:8080 php /var/www/html/s2-php
+        `basename $0` -h localhost:8080 php clients/php
 
     Generate a JavaScript client from a file.
-        `basename $0` /tmp/openapi3.yaml javascript /var/www/html/s2-js
+        `basename $0` -f /tmp/openapi3.yaml js clients/js
 
 EOF
     exit 1
