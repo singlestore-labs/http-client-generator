@@ -29,7 +29,7 @@ Alternatively, you can add the binding manually by editing your project's `compo
 ```json
 {
   "require": {
-    "singlestore/http-client": "^1.0"
+    "singlestore/http-client": "^2.0"
   }
 }
 ```
@@ -38,7 +38,7 @@ Then run `composer update` followed by `composer install`.
 
 ### ZIP File
 
-If you do not want to use Composer, you can also generate and download the package in a ZIP file using the [php-download.com](php-download.com) website.  Here is a link to the [SingleStore HTTP Client](https://php-download.com/package/singlestore/http-client).
+If you do not want to use Composer, you can also generate and download the package in a ZIP file using the [php-download.com](https://php-download.com/) website.  Here is a link to the [SingleStore HTTP Client](https://php-download.com/package/singlestore/http-client).
 
 ## Example
 
@@ -106,10 +106,6 @@ To run the tests, use:
 composer install
 vendor/bin/phpunit
 ```
-
-## Known Issues
-
-The `/api/v1/spec` endpoint is included in the API, but is not accessible yet in SingleStore, and will return a 404. It will be available soon. In the meantime the [OpenAPI 3.0](https://github.com/singlestore-labs/http-client-php/blob/main/openapi3.yaml) spec can be downloaded from this repository.
 
 ## About this package
 
